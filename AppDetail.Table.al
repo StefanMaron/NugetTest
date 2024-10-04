@@ -13,6 +13,8 @@ table 50102 AppDetail
         }
         field(3; Dependencies; Text[2048])
         { }
+        field(4; DownloadUrl; Text[250])
+        { }
     }
 
     keys
