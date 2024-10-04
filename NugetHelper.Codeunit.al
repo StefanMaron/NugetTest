@@ -70,10 +70,20 @@ codeunit 50100 NugetHelper
         // DownloadUrl := TempToken.AsValue().AsText();
     end;
 
-    procedure DownloadApp(DownloadUrl: Text)
+    procedure InstallApps(DownloadUrl: Text;)
+    var
+        ExtensionManagement: Codeunit "Extension Management";
+        ListOfApps: List of [InStream];
+        InStr: InStream;
+    begin
+        DownloadApp(DownloadUrl, ListOfApps);
+        foreach InStr in ListOfApps do
+            ExtensionManagement.UploadExtension(InStr, 1033);
+    end;
+
+    procedure DownloadApp(DownloadUrl: Text; var ListOfApps: List of [InStream])
     var
         DataCompression: Codeunit "Data Compression";
-        ExtensionManagement: Codeunit "Extension Management";
         HttpResponseMessage: Codeunit "Http Response Message";
         RestClient: Codeunit "Rest Client";
         TempBlob: Codeunit "Temp Blob";
@@ -82,7 +92,6 @@ codeunit 50100 NugetHelper
         OutStr: OutStream;
         Entry: Text;
     begin
-
         HttpResponseMessage := RestClient.Get(DownloadUrl);
         InStr := HttpResponseMessage.GetContent().AsInStream();
 
@@ -93,11 +102,14 @@ codeunit 50100 NugetHelper
             if Entry.EndsWith('.app') then begin
                 Clear(TempBlob);
                 Clear(OutStr);
+
                 TempBlob.CreateOutStream(OutStr);
                 DataCompression.ExtractEntry(Entry, OutStr);
+
                 Clear(InStr);
                 TempBlob.CreateInStream(InStr);
-                ExtensionManagement.UploadExtension(InStr, 1033);
+
+                ListOfApps.Add(InStr);
             end;
     end;
 }
