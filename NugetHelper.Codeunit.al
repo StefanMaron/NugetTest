@@ -104,21 +104,25 @@ codeunit 50100 NugetHelper
             end;
     end;
 
+
+    //TODO: Testcode
     procedure GetPackageDetail(var TempBlob: Codeunit "Temp Blob")
     var
         AppAttributesXmlBuffer, IdRangeXmlBuffer, XmlBuffer : Record "XML Buffer" temporary;
         DataCompression: Codeunit "Data Compression";
         EntryList: List of [Text];
+        InStr: InStream;
     begin
-        DataCompression.OpenZipArchive(TempBlob.CreateInStream(), false);
+        InStr := TempBlob.CreateInStream(TextEncoding::UTF8);
 
-        Message('zip %1', DataCompression.IsZip(TempBlob.CreateInStream()));
-        Message('gzip %1', DataCompression.IsGZip(TempBlob.CreateInStream()));
+        InStr.Position(41);
+
+        DataCompression.OpenZipArchive(InStr, false);
 
         DataCompression.GetEntryList(EntryList);
-        DataCompression.ExtractEntry('NavxManifest.xml', TempBlob.CreateOutStream());
+        DataCompression.ExtractEntry('NavxManifest.xml', TempBlob.CreateOutStream(TextEncoding::UTF8));
 
-        XmlBuffer.LoadFromStream(TempBlob.CreateInStream());
+        XmlBuffer.LoadFromStream(TempBlob.CreateInStream(TextEncoding::UTF8));
         XmlBuffer.FindNodesByXPath(AppAttributesXmlBuffer, '/Package/App/@*');
         // XmlBuffer.FindNodesByXPath(IdRangeXmlBuffer, '/Package/App/@*')
 
