@@ -51,9 +51,10 @@ page 50101 NugetAppList
             {
                 trigger OnAction()
                 var
-                    NugetHelper: Codeunit NugetHelper;
+                    AppDetailList: Page AppDetailList;
                 begin
-                    NugetHelper.DownloadApp(FeedUrl, Rec);
+                    AppDetailList.Load(FeedUrl, Rec);
+                    AppDetailList.Run();
                 end;
             }
         }
@@ -93,6 +94,5 @@ page 50101 NugetAppList
 
             Rec.Insert();
         end;
-
     end;
 }

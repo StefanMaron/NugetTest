@@ -9,14 +9,17 @@ page 50102 AppDetailList
     {
         area(Content)
         {
-            field("Version"; Rec."Version")
+            repeater(Main)
             {
-            }
-            field(CommitId; Rec.CommitId)
-            {
-            }
-            field(Dependencies; Rec.Dependencies)
-            {
+                field("Version"; Rec."Version")
+                {
+                }
+                field(CommitId; Rec.CommitId)
+                {
+                }
+                field(Dependencies; Rec.Dependencies)
+                {
+                }
             }
         }
     }
@@ -25,12 +28,14 @@ page 50102 AppDetailList
     {
         area(Processing)
         {
-            action(ActionName)
+            action(Install)
             {
 
                 trigger OnAction()
+                var
+                    NugetHelper: Codeunit NugetHelper;
                 begin
-
+                    NugetHelper.InstallApps(Rec.DownloadUrl);
                 end;
             }
         }

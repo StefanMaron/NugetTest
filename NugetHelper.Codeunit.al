@@ -65,23 +65,22 @@ codeunit 50100 NugetHelper
         TempToken: JsonToken;
     begin
         HttpResponseMessage := RestClient.Get(NugetHelper.GetRegistrationsBaseUrl(FeedUrl) + Rec.Id.ToLower() + '/index.json');
-        HttpResponseMessage.GetContent().AsJson().SelectToken('$.items[0].items[0]', TempToken);
+        HttpResponseMessage.GetContent().AsJson().SelectToken('$.items[0].items', TempToken);
         exit(TempToken.AsArray());
-        // DownloadUrl := TempToken.AsValue().AsText();
     end;
 
-    procedure InstallApps(DownloadUrl: Text;)
+    procedure InstallApps(DownloadUrl: Text)
     var
         ExtensionManagement: Codeunit "Extension Management";
-        ListOfApps: List of [InStream];
-        InStr: InStream;
+        TempBlob: Codeunit "Temp Blob";
+        ListOfApps: List of [Codeunit "Temp Blob"];
     begin
         DownloadApp(DownloadUrl, ListOfApps);
-        foreach InStr in ListOfApps do
-            ExtensionManagement.UploadExtension(InStr, 1033);
+        foreach TempBlob in ListOfApps do
+            ExtensionManagement.UploadExtension(TempBlob.CreateInStream(), 1033);
     end;
 
-    procedure DownloadApp(DownloadUrl: Text; var ListOfApps: List of [InStream])
+    procedure DownloadApp(DownloadUrl: Text; var ListOfApps: List of [Codeunit "Temp Blob"])
     var
         DataCompression: Codeunit "Data Compression";
         HttpResponseMessage: Codeunit "Http Response Message";
@@ -89,7 +88,6 @@ codeunit 50100 NugetHelper
         TempBlob: Codeunit "Temp Blob";
         InStr: InStream;
         EntryList: List of [Text];
-        OutStr: OutStream;
         Entry: Text;
     begin
         HttpResponseMessage := RestClient.Get(DownloadUrl);
@@ -101,15 +99,8 @@ codeunit 50100 NugetHelper
         foreach Entry in EntryList do
             if Entry.EndsWith('.app') then begin
                 Clear(TempBlob);
-                Clear(OutStr);
-
-                TempBlob.CreateOutStream(OutStr);
-                DataCompression.ExtractEntry(Entry, OutStr);
-
-                Clear(InStr);
-                TempBlob.CreateInStream(InStr);
-
-                ListOfApps.Add(InStr);
+                DataCompression.ExtractEntry(Entry, TempBlob.CreateOutStream());
+                ListOfApps.Add(TempBlob);
             end;
     end;
 }
