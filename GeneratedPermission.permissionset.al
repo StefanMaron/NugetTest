@@ -1,11 +1,11 @@
 permissionset 50100 GeneratedPermission
 {
-    Assignable = true;
-    Permissions = tabledata NugetApp=RIMD,
-        tabledata NugetFeed=RIMD,
-        table NugetApp=X,
-        table NugetFeed=X,
-        codeunit NugetHelper=X,
-        page NugetAppList=X,
-        page NugetFeedsList=X;
+    Assignable = false;
+    Permissions = table NugetApp = X,
+tabledata NugetApp = RIMD,
+        table NugetFeed = X,
+        tabledata NugetFeed = RIMD,
+        codeunit NugetHelper = X,
+        page NugetAppList = X,
+        page NugetFeedsList = X;
 }
