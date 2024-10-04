@@ -13,7 +13,7 @@ table 50101 NugetApp
         field(3; AppVersion; Text[250])
         {
         }
-        field(4; AppDescription; Text[1024])
+        field(4; AppDescription; Text[2048])
         {
         }
         field(5; Publisher; Text[250])

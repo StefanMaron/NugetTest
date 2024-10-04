@@ -56,4 +56,41 @@ codeunit 50100 NugetHelper
         HttpResponseMessage.GetContent().AsJson().AsObject().Get('data', TempToken);
         Apps := TempToken.AsArray();
     end;
+
+    procedure DownloadApp(FeedUrl: Text; Rec: Record "NugetApp")
+    var
+        DataCompression: Codeunit "Data Compression";
+        ExtensionManagement: Codeunit "Extension Management";
+        HttpResponseMessage: Codeunit "Http Response Message";
+        NugetHelper: Codeunit NugetHelper;
+        RestClient: Codeunit "Rest Client";
+        TempBlob: Codeunit "Temp Blob";
+        InStr: InStream;
+        TempToken: JsonToken;
+        EntryList: List of [Text];
+        OutStr: OutStream;
+        DownloadUrl: Text;
+        Entry: Text;
+    begin
+        HttpResponseMessage := RestClient.Get(NugetHelper.GetRegistrationsBaseUrl(FeedUrl) + Rec.Id.ToLower() + '/index.json');
+        HttpResponseMessage.GetContent().AsJson().SelectToken('$.items[0].items[0].packageContent', TempToken);
+        DownloadUrl := TempToken.AsValue().AsText();
+
+        HttpResponseMessage := RestClient.Get(DownloadUrl);
+        InStr := HttpResponseMessage.GetContent().AsInStream();
+
+        DataCompression.OpenZipArchive(InStr, false);
+        DataCompression.GetEntryList(EntryList);
+
+        foreach Entry in EntryList do
+            if Entry.EndsWith('.app') then begin
+                Clear(TempBlob);
+                Clear(OutStr);
+                TempBlob.CreateOutStream(OutStr);
+                DataCompression.ExtractEntry(Entry, OutStr);
+                Clear(InStr);
+                TempBlob.CreateInStream(InStr);
+                ExtensionManagement.UploadExtension(InStr, 1033);
+            end;
+    end;
 }

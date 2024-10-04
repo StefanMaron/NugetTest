@@ -16,9 +16,9 @@ page 50101 NugetAppList
                     trigger OnValidate()
                     var
                         NugetHelper: Codeunit NugetHelper;
+                        Uri: Codeunit Uri;
                     begin
-                        Load(NugetHelper.GetAppArray(SearchQueryServiceUrl + '?q=' + SearchValue), SearchQueryServiceUrl, FeedUrl);
-
+                        Load(NugetHelper.GetAppArray(SearchQueryServiceUrl + '?q=' + Uri.EscapeDataString(SearchValue)), SearchQueryServiceUrl, FeedUrl);
                     end;
                 }
 
@@ -51,34 +51,9 @@ page 50101 NugetAppList
             {
                 trigger OnAction()
                 var
-                    DataCompression: Codeunit "Data Compression";
-                    ExtensionManagement: Codeunit "Extension Management";
-                    HttpResponseMessage: Codeunit "Http Response Message";
                     NugetHelper: Codeunit NugetHelper;
-                    RestClient: Codeunit "Rest Client";
-                    TempBlob: Codeunit "Temp Blob";
-                    InStr: InStream;
-                    TempToken: JsonToken;
-                    EntryList: List of [Text];
-                    OutStr: OutStream;
-                    DownloadUrl: Text;
                 begin
-                    HttpResponseMessage := RestClient.Get(NugetHelper.GetRegistrationsBaseUrl(FeedUrl) + Rec.Id.ToLower() + '/index.json');
-                    HttpResponseMessage.GetContent().AsJson().SelectToken('$.items[0].items[0].packageContent', TempToken);
-                    DownloadUrl := TempToken.AsValue().AsText();
-
-                    HttpResponseMessage := RestClient.Get(DownloadUrl);
-                    InStr := HttpResponseMessage.GetContent().AsInStream();
-
-                    DataCompression.OpenZipArchive(InStr, false);
-                    DataCompression.GetEntryList(EntryList);
-
-                    TempBlob.CreateOutStream(OutStr);
-                    DataCompression.ExtractEntry(EntryList.Get(2), OutStr);
-                    Clear(InStr);
-                    TempBlob.CreateInStream(InStr);
-
-                    ExtensionManagement.UploadExtension(InStr, 1033);
+                    NugetHelper.DownloadApp(FeedUrl, Rec);
                 end;
             }
         }
@@ -108,7 +83,7 @@ page 50101 NugetAppList
             Rec.AppName := TempToken.AsValue().AsText();
 
             App.AsObject().Get('description', TempToken);
-            Rec.AppDescription := TempToken.AsValue().AsText();
+            Rec.AppDescription := CopyStr(TempToken.AsValue().AsText(), 1, MaxStrLen(Rec.AppDescription));
 
             App.AsObject().Get('version', TempToken);
             Rec.AppVersion := TempToken.AsValue().AsText();
