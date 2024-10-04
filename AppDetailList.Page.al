@@ -38,6 +38,19 @@ page 50102 AppDetailList
                     NugetHelper.InstallApps(Rec.DownloadUrl);
                 end;
             }
+            action(ShowDetails)
+            {
+                trigger OnAction()
+                var
+                    NugetHelper: Codeunit NugetHelper;
+                    TempBlob: Codeunit "Temp Blob";
+                    ListOfApps: List of [Codeunit "Temp Blob"];
+                begin
+                    NugetHelper.DownloadApp(Rec.DownloadUrl, ListOfApps);
+                    foreach TempBlob in ListOfApps do
+                        NugetHelper.GetPackageDetail(TempBlob);
+                end;
+            }
         }
     }
 

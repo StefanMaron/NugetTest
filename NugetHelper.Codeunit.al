@@ -103,4 +103,25 @@ codeunit 50100 NugetHelper
                 ListOfApps.Add(TempBlob);
             end;
     end;
+
+    procedure GetPackageDetail(var TempBlob: Codeunit "Temp Blob")
+    var
+        AppAttributesXmlBuffer, IdRangeXmlBuffer, XmlBuffer : Record "XML Buffer" temporary;
+        DataCompression: Codeunit "Data Compression";
+        EntryList: List of [Text];
+    begin
+        DataCompression.OpenZipArchive(TempBlob.CreateInStream(), false);
+
+        Message('zip %1', DataCompression.IsZip(TempBlob.CreateInStream()));
+        Message('gzip %1', DataCompression.IsGZip(TempBlob.CreateInStream()));
+
+        DataCompression.GetEntryList(EntryList);
+        DataCompression.ExtractEntry('NavxManifest.xml', TempBlob.CreateOutStream());
+
+        XmlBuffer.LoadFromStream(TempBlob.CreateInStream());
+        XmlBuffer.FindNodesByXPath(AppAttributesXmlBuffer, '/Package/App/@*');
+        // XmlBuffer.FindNodesByXPath(IdRangeXmlBuffer, '/Package/App/@*')
+
+        Message(AppAttributesXmlBuffer.GetAttributeValue('Id'));
+    end;
 }
