@@ -1,0 +1,11 @@
+{
+    "name": "Custom",
+    "description": "Description",
+    "includedRuleSets": [
+        {
+            "action": "Default",
+            "path": "https://raw.githubusercontent.com/StefanMaron/RulesetFiles/main/pte.rulset.json"
+        }
+    ],
+    "rules": []
+}

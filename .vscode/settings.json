@@ -1,0 +1,11 @@
+{
+    "al.ruleSetPath": "custom.ruleset.json",
+    "al.enableExternalRulesets": true,
+    "al.enableCodeAnalysis": true,
+    "al.codeAnalyzers": [
+        "${CodeCop}",
+        "${UICop}",
+        "${PerTenantExtensionCop}",
+        "${analyzerFolder}BusinessCentral.LinterCop.dll"
+    ]
+}
