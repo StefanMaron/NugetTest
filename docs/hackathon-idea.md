@@ -47,14 +47,14 @@ Everything is built test-first (red/green). The renumbering engine is tested aga
 
 | # | Milestone | Content |
 |---|-----------|---------|
-| 0 | De-risk spike (before Dec 1st) | Renumber a real app by hand and install it in a SaaS sandbox; confirm the server compiles the repacked source. |
+| 0 | De-risk spike ✅ **done** | A renumbered and repacked app has already been installed in Business Central, so the core technical risk is resolved. |
 | 1 | Repack engine | AL codeunits: read and write the NAVX package (40-byte header, zip, content length, remove signature); renumber that understands strings and comments in `.al`, plus `SymbolReference.json`, `navigation.xml` and the manifest; warn about any leftover number in the old range that it isn't sure about. |
 | 2 | Registry | GitHub Action: topic crawler → `index.json` (versions, SHA-256, license filter (OSI licenses only), ID ranges, dependencies, BC version compatibility) + facts scan + automatic repack test of every listed app. |
 | 3 | Store in BC | Storefront (Brick tiles + card page), choose a free range, mapping table (shared by all companies), install through Extension Management incl. tracking the deployment status, update detection. |
 | 4 | Trust | AI review in the registry (diff-based for updates), "What this app can do" panel, sandbox-first policy (Admin Center API), withdrawn versions. |
 | 5 | Ecosystem & demo | Onboard 5–10 real open-source BC apps, maintainer documentation (`topic + release` is all it takes), demo script. |
 
-**MVP:** milestones 0–5.
+**MVP:** milestones 1–5 (0 is already done).
 **Stretch:** running contributor test apps inside the customer's sandbox, a Copilot review inside the tenant (aware of the customer's other extensions), a version diff view, NuGet as a second source (behind a `Store Source` interface), a ControlAddIn storefront, chains of dependent store apps.
 
 **Questions to settle early:** whether AppSource policy allows a store app that installs PTEs (we'll ask Microsoft early); whether to keep or change app IDs when repacking; how repacked apps are versioned (so we can hotfix the repacker itself, since BC can't downgrade).
@@ -80,7 +80,7 @@ Everything is built test-first (red/green). The renumbering engine is tested aga
 ## 🗓️ Timeline Overview
 | Phase | Description | Target Date |
 |-------|--------------|--------------|
-| Ideation & Submission | Reflect and submit by noon, Dec 1st; spike: renumbered app installs in a sandbox | Dec 1st |
+| Ideation & Submission | Reflect and submit by noon, Dec 1st (spike already done: renumbered app installs) | Dec 1st |
 | Development | M1 Repack engine | Dec 14th |
 | Development | M2 Registry + facts scan | Dec 31st |
 | Development | M3 Store in BC (browse, install, update) | Jan 14th |
