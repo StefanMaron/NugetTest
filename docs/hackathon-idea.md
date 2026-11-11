@@ -47,7 +47,7 @@ Everything is built test-first (red/green). The renumbering engine is tested aga
 
 | # | Milestone | Content |
 |---|-----------|---------|
-| 0 | De-risk spike ✅ **done** | A renumbered and repacked app has already been installed in Business Central, so the core technical risk is resolved. |
+| 0 | De-risk spike ✅ **done** | Building and publishing an app package from AL inside Business Central works, so the feasibility risk is resolved. BC has no record of the original IDs: a renumbered package is simply a new app to it. Whether renumbering is *correct* is handled by tests in milestone 1. |
 | 1 | Repack engine | AL codeunits: read and write the NAVX package (40-byte header, zip, content length, remove signature); renumber that understands strings and comments in `.al`, plus `SymbolReference.json`, `navigation.xml` and the manifest; warn about any leftover number in the old range that it isn't sure about. |
 | 2 | Registry | GitHub Action: topic crawler → `index.json` (versions, SHA-256, license filter (OSI licenses only), ID ranges, dependencies, BC version compatibility) + facts scan + automatic repack test of every listed app. |
 | 3 | Store in BC | Storefront (Brick tiles + card page), choose a free range, mapping table (shared by all companies), install through Extension Management incl. tracking the deployment status, update detection. |
