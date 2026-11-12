@@ -58,7 +58,6 @@ Everything is built test-first (red/green). The renumbering engine is tested aga
 **MVP:** milestones 1–5 (0 is already done).
 **Stretch:** running contributor test apps inside the customer's sandbox, a Copilot review inside the tenant (aware of the customer's other extensions), a version diff view, NuGet as another source (same `Store Source` interface), a ControlAddIn storefront, chains of dependent store apps.
 
-**Questions to settle early:** whether AppSource policy allows a store app that installs PTEs (I'll ask Microsoft early); whether to keep or change app IDs when repacking; how repacked apps are versioned (so I can hotfix the repacker itself, since BC can't downgrade).
 
 ---
 
