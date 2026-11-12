@@ -8,9 +8,11 @@ Before submitting (deadline Dec 1st 2026, noon CET): read the Reflection and mak
 
 Directions is about where the Business Central ecosystem is heading, and for me one piece is still missing: **open source that customers can actually use.**
 
-Our community writes a lot of good open-source AL code, but almost none of it ends up in customer tenants. There's no place to find it. It nearly always uses the 50000 range that every customer already uses. And there's no safe, repeatable way to install it, update it, and trust it in production. As long as that stays true, open source in BC is mostly something we share between developers, not something customers benefit from.
+Today there are two kinds of open-source BC apps. If you're a registered ISV, like me, you can publish your app on AppSource for free, and customers can install it with one click. Most community developers can't do that. Their only option is to push the app to GitHub, usually in the 50000 range that every customer already uses.
 
-This is the app I believe is needed, and the one I want to contribute: the missing distribution layer that makes the open-source story for Business Central extensions practical, for customers, partners and maintainers.
+But GitHub is a developer portal, not a place where customers get apps. A customer can't find, install or update an app from GitHub without a developer doing it for them. AI makes the coding part a bit easier, but everything around it is still manual: finding the app, renumbering it, installing it, updating it, deciding whether to trust it. So most good open-source AL code never reaches a customer tenant, and open source in BC stays something developers share with each other.
+
+This is the app I believe is needed, and the one I want to contribute: a tool that closes that gap, so end users and customers get the real benefits of open source, and every community developer can reach them, not just those with an AppSource listing.
 
 ---
 
