@@ -1,20 +1,16 @@
 <!--
 DRAFT for the Directions EMEA 2026 hackathon (template: "Hackathon Project Idea").
 Issue title: [Hackathon Idea] BC Open Store – discover, verify and safely install open-source Business Central apps
-To do before submitting (deadline Dec 1st 2026, noon CET):
-  - Write the Reflection section in your own words (only you know what you took away from the conference).
-  - Fill in the brother's name / GitHub username.
-  - Confirm the working title.
-  - Confirm both team members attended Directions EMEA 2026 and are not on another team.
+Before submitting (deadline Dec 1st 2026, noon CET): read the Reflection and make sure it sounds like you; confirm the working title.
 -->
 
 ## 🧠 Reflection
 
-> _TODO (Stefan & co-founder): your own take-aways from Directions EMEA 2026. Possible angles, keep only what is true for you:_
-> - _how much good open-source AL code exists, and how rarely customers actually use it_
-> - _the push towards package feeds / NuGet / AL-Go for distributing apps_
-> - _AI/Copilot everywhere – but trust and review are still a person's job_
-> - _conversations with partners about ID-range collisions and "we can't install that, it's in our 50000 range"_
+Directions is about where the Business Central ecosystem is heading, and for me one piece is still missing: **open source that customers can actually use.**
+
+Our community writes a lot of good open-source AL code, but almost none of it ends up in customer tenants. There's no place to find it. It nearly always uses the 50000 range that every customer already uses. And there's no safe, repeatable way to install it, update it, and trust it in production. As long as that stays true, open source in BC is mostly something we share between developers, not something customers benefit from.
+
+This is the app I believe is needed, and the one I want to contribute: the missing distribution layer that makes the open-source story for Business Central extensions practical, for customers, partners and maintainers.
 
 ---
 
@@ -57,14 +53,13 @@ Everything is built test-first (red/green). The renumbering engine is tested aga
 **MVP:** milestones 1–5 (0 is already done).
 **Stretch:** running contributor test apps inside the customer's sandbox, a Copilot review inside the tenant (aware of the customer's other extensions), a version diff view, NuGet as a second source (behind a `Store Source` interface), a ControlAddIn storefront, chains of dependent store apps.
 
-**Questions to settle early:** whether AppSource policy allows a store app that installs PTEs (we'll ask Microsoft early); whether to keep or change app IDs when repacking; how repacked apps are versioned (so we can hotfix the repacker itself, since BC can't downgrade).
+**Questions to settle early:** whether AppSource policy allows a store app that installs PTEs (I'll ask Microsoft early); whether to keep or change app IDs when repacking; how repacked apps are versioned (so I can hotfix the repacker itself, since BC can't downgrade).
 
 ---
 
 ## 👥 Team
 
 > - Stefan Maron (@StefanMaron)
-> - _TODO: name (@github-username)_
 
 ---
 
